@@ -1,0 +1,23 @@
+<h1>Listing capture_images</h1>
+
+<table>
+  <tr>
+    <th>Image</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @capture_images.each do |capture_image| %>
+  <tr>
+    <td><%= capture_image.image %></td>
+    <td><%= link_to 'Show', capture_image %></td>
+    <td><%= link_to 'Edit', edit_capture_image_path(capture_image) %></td>
+    <td><%= link_to 'Destroy', capture_image, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Capture image', new_capture_image_path %>
