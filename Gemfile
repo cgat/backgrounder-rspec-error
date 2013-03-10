@@ -11,7 +11,7 @@ gem 'carrierwave_backgrounder'
 gem 'sidekiq'
 gem 'slim'
 gem 'sinatra', require: false
-gem 'carrierwave-vips'
+#gem 'carrierwave-vips'
 gem 'debugger'
 group :test do
   gem 'rspec-rails'

@@ -2,7 +2,7 @@
 
 class ImageUploader < CarrierWave::Uploader::Base
   include ::CarrierWave::Backgrounder::Delay
-  include CarrierWave::Vips
+  #include CarrierWave::Vips
   include CarrierWave::MimeTypes
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -40,30 +40,30 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
-  version :medium do 
-    def store_dir
-      if Rails.env.test?
-        "uploads/test/versions"
-      else
-        "uploads/versions"
-      end
-    end
-    def full_filename (for_file = model.image.file)
-      "medium_#{for_file}.jpeg" 
-    end
-    process :convert_to_8bit
-    process :convert => :jpeg
-    process :resize_to_limit => [450,450]
-    process quality: 75
-  end
-
-
-  def convert_to_8bit
-    manipulate! do |image|
-      #vips specific
-      image.scale
-    end
-  end
+  # version :medium do 
+  #   def store_dir
+  #     if Rails.env.test?
+  #       "uploads/test/versions"
+  #     else
+  #       "uploads/versions"
+  #     end
+  #   end
+  #   def full_filename (for_file = model.image.file)
+  #     "medium_#{for_file}.jpeg" 
+  #   end
+  #   process :convert_to_8bit
+  #   process :convert => :jpeg
+  #   process :resize_to_limit => [450,450]
+  #   process quality: 75
+  # end
+  # 
+  # 
+  # def convert_to_8bit
+  #   manipulate! do |image|
+  #     #vips specific
+  #     image.scale
+  #   end
+  # end
   
   # Create different versions of your uploaded files:
   # version :thumb do
