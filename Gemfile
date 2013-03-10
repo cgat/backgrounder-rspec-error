@@ -19,6 +19,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'test_after_commit'
+  gem 'database_cleaner'
 end
 
 # Gems used only for assets and not required

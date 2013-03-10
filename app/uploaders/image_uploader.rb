@@ -2,6 +2,8 @@
 
 class ImageUploader < CarrierWave::Uploader::Base
   include ::CarrierWave::Backgrounder::Delay
+  include CarrierWave::Vips
+  include CarrierWave::MimeTypes
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -9,7 +11,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Include the Sprockets helpers for Rails 3.1+ asset pipeline compatibility:
   # include Sprockets::Helpers::RailsHelper
   # include Sprockets::Helpers::IsolatedHelper
-
+  process :set_content_type
   # Choose what kind of storage to use for this uploader:
   storage :file
   # storage :fog
@@ -18,6 +20,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+  end
+  
+  def move_to_store
+    true
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -34,7 +40,31 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def scale(width, height)
   #   # do something
   # end
+  version :medium do 
+    def store_dir
+      if Rails.env.test?
+        "uploads/test/versions"
+      else
+        "uploads/versions"
+      end
+    end
+    def full_filename (for_file = model.image.file)
+      "medium_#{for_file}.jpeg" 
+    end
+    process :convert_to_8bit
+    process :convert => :jpeg
+    process :resize_to_limit => [450,450]
+    process quality: 75
+  end
 
+
+  def convert_to_8bit
+    manipulate! do |image|
+      #vips specific
+      image.scale
+    end
+  end
+  
   # Create different versions of your uploaded files:
   # version :thumb do
   #   process :scale => [50, 50]
